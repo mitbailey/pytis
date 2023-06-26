@@ -88,6 +88,7 @@ if __name__ == "__main__":
     bat_num = 0
     while key != 'q':
         print('s: Snap & Save')
+        print('c: Capture 10s (3s delay)')
         print('q: Quit')
         key = input('> ')
         
@@ -99,6 +100,52 @@ if __name__ == "__main__":
             t0 = time.time()
             t = 0
             while(t<1000):
+                retval = ic.IC_SnapImage(hGrabber, 2000)
+                if retval == tis.IC_SUCCESS:
+                    t = int(1000*(time.time() - t0))
+                    ic.IC_SaveImage(hGrabber, tis.T('data/snap_%03d_%03d_%06d.bmp'%(bat_num, img_num, t)), tis.ImageFileTypes['BMP'], 90)
+                    # print('Image saved.')
+                    img_num+=1
+                else:
+                    print('No frame received in 2 seconds.')
+                    print(retval)
+                    print('Cancelling, took %d shots.'%(img_num))
+                    break
+            bat_num+=1
+        elif key == 'c':
+            print('T-3...')
+            time.sleep(1)
+            print('T-2...')
+            time.sleep(1)
+            print('T-1...')
+            time.sleep(1)
+            print('SNAPPING!')
+            t0 = time.time()
+            t = 0
+            while(t<10000):
+                retval = ic.IC_SnapImage(hGrabber, 2000)
+                if retval == tis.IC_SUCCESS:
+                    t = int(1000*(time.time() - t0))
+                    ic.IC_SaveImage(hGrabber, tis.T('data/snap_%03d_%03d_%06d.bmp'%(bat_num, img_num, t)), tis.ImageFileTypes['BMP'], 90)
+                    # print('Image saved.')
+                    img_num+=1
+                else:
+                    print('No frame received in 2 seconds.')
+                    print(retval)
+                    print('Cancelling, took %d shots.'%(img_num))
+                    break
+            bat_num+=1
+        elif key == 'c2':
+            print('T-3...')
+            time.sleep(1)
+            print('T-2...')
+            time.sleep(1)
+            print('T-1...')
+            time.sleep(1)
+            print('SNAPPING!')
+            t0 = time.time()
+            t = 0
+            while(t<10000):
                 retval = ic.IC_SnapImage(hGrabber, 2000)
                 if retval == tis.IC_SUCCESS:
                     t = int(1000*(time.time() - t0))
